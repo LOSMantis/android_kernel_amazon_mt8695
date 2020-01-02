@@ -572,7 +572,7 @@ static void __init build_mem_type_table(void)
 	 * in the Short-descriptor translation table format descriptors.
 	 */
 	if (cpu_arch == CPU_ARCH_ARMv7 &&
-		(read_cpuid_ext(CPUID_EXT_MMFR0) & 0xF) == 4) {
+		(read_cpuid_ext(CPUID_EXT_MMFR0) & 0xF) >= 4) {
 		user_pmd_table |= PMD_PXNTABLE;
 	}
 #endif
@@ -1438,6 +1438,9 @@ static void __init map_lowmem(void)
 				create_mapping(&map);
 			}
 		}
+
+		if (!(end & ~SECTION_MASK))
+			memblock_set_current_limit(end);
 	}
 }
 

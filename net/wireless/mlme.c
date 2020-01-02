@@ -655,10 +655,6 @@ int cfg80211_mlme_mgmt_tx(struct cfg80211_registered_device *rdev,
 		if (err)
 			return err;
 	}
-
-	if (!ether_addr_equal(mgmt->sa, wdev_address(wdev)))
-		return -EINVAL;
-
 	/* Transmit the Action frame as requested by user space */
 	return rdev_mgmt_tx(rdev, wdev, params, cookie);
 }
